@@ -1,0 +1,34 @@
+# Ignore every file by default. Re-include only the runtime source,
+# schema, package/config, launch scripts, and small project docs.
+*
+!*/
+
+# Dependency installs: re-ignore so the !*/ rule above doesn't descend into
+# them (a fully-ignored directory can't be re-included by the rules below).
+node_modules/
+
+# Root docs and repo metadata
+!.gitignore
+!README.md
+!CLAUDE.md
+!security.md
+!instructions.md
+
+
+# Backend runtime
+!backend/requirements.txt
+!backend/app/**/*.py
+!backend/migrations/*.sql
+
+# Frontend runtime/build inputs
+!frontend/index.html
+!frontend/package.json
+!frontend/package-lock.json
+!frontend/tsconfig.json
+!frontend/vite.config.ts
+!frontend/src/**/*.ts
+!frontend/src/**/*.tsx
+!frontend/src/**/*.css
+
+# Local PowerShell helpers
+!scripts/*.ps1

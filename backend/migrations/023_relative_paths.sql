@@ -1,0 +1,15 @@
+-- Link robustness: make stored paths survive a data-dir move.
+--
+-- 1. attachments.disk_path is rewritten from an absolute path to a path
+--    relative to ATTACHMENTS_DIR. SQLite cannot portably strip a host-specific
+--    absolute prefix, so the rewrite is done by a small Python backfill invoked
+--    from db.init_db() (see services.relative_paths.backfill_relative_disk_paths),
+--    mirroring the backfill_doc_ids pattern. This file only documents intent --
+--    no schema change is needed for that column.
+--
+-- 2. source_blob_sha256 records that the managed content-addressed source store
+--    (SOURCES_DIR) holds a copy of this email's original bytes. It is kept
+--    distinct from source_sha256, which remains the dedup content hash of the
+--    parsed source. Nullable; set going forward by ingest (Phase 3) and by
+--    import. Forward-only, per repo convention -- there is no down-migration.
+ALTER TABLE emails ADD COLUMN source_blob_sha256 TEXT;
